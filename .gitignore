@@ -45,3 +45,6 @@ results/
 *.xlsx
 *.pdf
 .DS_Store
+runs/
+# local working copy of skills/ so the agent can invoke them; not part of the repo
+.claude/skills/

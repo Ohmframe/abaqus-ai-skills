@@ -5,8 +5,12 @@ description: Diagnose and fix Abaqus meshes - Analysis Checks errors and warning
 
 # Abaqus mesh doctor
 
-> **Status: untested.** The scripts and workflow in this skill have not been run in Abaqus yet.
-> Treat every report and fix as unverified until the checks below pass, and tell the user so.
+> **Status: verified on Abaqus 2023.** The worked example meshes as documented (2 cells, 0 non-hex
+> elements, 0 Analysis Checks errors and warnings) and solves to Kt = 3.20 on the integration points
+> against the 3.0-3.14 hand range, with RF1 = -50 000 N exactly. `mesh_diagnose.py`,
+> `optimize_hex_mesh.py` (2 warnings -> 0) and `scratch_static_check.py` (reaction = weight to 6
+> digits) were run too; `shell_weld.py` runs clean but its imprint/merge path is not yet exercised
+> by a real CAD STEP. Not yet run on any other release. See `TEST_REPORT.md`.
 
 Get an Abaqus mesh from "won't mesh / job dies" to a solvable mesh with evidence.
 Diagnose first, change second, prove last.

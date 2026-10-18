@@ -63,11 +63,23 @@ if CAE:
     openMdb(pathName=CAE)
 src = mdb.models[MODEL]
 mo = mdb.Model(name='SCRATCH', objectToCopy=src)
-for k in list(mo.rootAssembly.instances.keys()):
-    del mo.rootAssembly.instances[k]
+# The copy also brings the original BCs, loads, constraints, interactions and output requests.
+# They point at assembly sets of instances this script is about to delete, which makes the input
+# file reference undefined node sets ("NODE SET ... HAS NOT BEEN DEFINED") and the job dies in the
+# pre-processor. Strip everything that refers to the assembly, in dependency order.
 for k in list(mo.steps.keys()):
     if k != 'Initial':
         del mo.steps[k]
+for repo in ('boundaryConditions', 'loads', 'predefinedFields', 'constraints', 'interactions',
+             'fieldOutputRequests', 'historyOutputRequests'):
+    r = getattr(mo, repo, None)
+    for k in (list(r.keys()) if r is not None else []):
+        del r[k]
+for k in list(mo.rootAssembly.instances.keys()):
+    del mo.rootAssembly.instances[k]
+for repo in (mo.rootAssembly.surfaces, mo.rootAssembly.sets):
+    for k in list(repo.keys()):
+        del repo[k]
 p = mo.parts[PART]
 
 shell = False
@@ -99,15 +111,32 @@ gdir = (AXIS + 1) % 3                     # gravity perpendicular to the clamp a
 comps = [0.0, 0.0, 0.0]
 comps[gdir] = -PROPS['g']
 mo.Gravity(name='G', createStepName='LOAD', comp1=comps[0], comp2=comps[1], comp3=comps[2])
-mo.fieldOutputRequests['F-Output-1'].setValues(variables=('U', 'RF', 'S'))
+mo.FieldOutputRequest(name='F-Output-1', createStepName='LOAD', variables=('U', 'RF', 'S'))
 log('scratch model: %s elements=%d nodes=%d clamped nodes=%d gravity on axis %s'
     % ('shell' if shell else 'solid', len(inst.elements), len(inst.nodes), len(clamp), 'xyz'[gdir]))
 job = mdb.Job(name=JOB, model='SCRATCH', numCpus=CPUS, numDomains=CPUS)
 job.submit(consistencyChecking=OFF)
 job.waitForCompletion()
 
+
+def job_status():
+    """job.status is None for a batch job in some releases; the .log is authoritative."""
+    if job.status is not None:
+        return str(job.status)
+    try:
+        tail = open(JOB + '.log').read()
+    except IOError:
+        return 'UNKNOWN (no .log)'
+    if 'exited with errors' in tail or 'Abaqus Error' in tail:
+        return 'ABORTED (see %s.dat)' % JOB
+    return 'COMPLETED' if 'COMPLETED' in tail else 'UNKNOWN'
+
+
+status = job_status()
+log('job %s finished with status %s' % (JOB, status))
+
 res = dict(model=MODEL, part=PART, shell=shell, elements=len(inst.elements), nodes=len(inst.nodes),
-           clamped_nodes=len(clamp))
+           clamped_nodes=len(clamp), job_status=status)
 try:
     msg = open(JOB + '.msg').read()
     res['zero_pivot'] = len(re.findall(r'ZERO PIVOT', msg))
@@ -129,6 +158,8 @@ try:
                U_over_span=um / span if span else None)
 except Exception as exc:
     res['odb_error'] = str(exc)
+    log('ERROR: could not read %s.odb (%s). Read %s.dat / %s.log before trusting anything below.'
+        % (JOB, exc, JOB, JOB))
 json.dump(res, open(JOB + '_result.json', 'w'), indent=2)
 for k in sorted(res):
     log('  %-20s %s' % (k, res[k]))

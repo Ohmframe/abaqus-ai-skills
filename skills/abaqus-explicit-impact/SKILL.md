@@ -5,9 +5,11 @@ description: Set up, run and sanity-check Abaqus/Explicit impact and dynamic-con
 
 # Abaqus/Explicit impact
 
-> **Status: untested.** The scripts and workflow in this skill have not been run in Abaqus yet.
-> Treat every result as unverified until the energy balance and hand checks below pass, and tell the
-> user so.
+> **Status: verified on Abaqus 2023.** The drop-test example was built, solved and checked: initial
+> ALLKE 12 500.0 mJ against the 12 500 mJ hand value, stable increment 6.1e-7 s and 4 833 increments
+> inside the predicted ranges, energy drift 0.02 %, `energy_balance.py` OVERALL PASS. Not yet run on
+> any other release. Treat every result on your own model as unverified until the energy balance and
+> hand checks below pass, and tell the user so. See `TEST_REPORT.md`.
 
 Explicit dynamic models built from parameters: check the time step before running, and never report
 a result without the energy balance.
@@ -47,7 +49,8 @@ explicit steps, mass scaling, restart, general contact and predefined velocity).
 6. **Prove** (below), then extract the engineering results (peak force, deflection, acceleration,
    plastic strain).
 7. **Report** the checks table with the results; state what is mass-scaled and by how much, which
-   filter was applied to accelerations, and that the scripts are untested.
+   filter was applied to accelerations, and which Abaqus release you ran (these scripts are verified
+   on 2023 only).
 
 ## Checks before you report
 

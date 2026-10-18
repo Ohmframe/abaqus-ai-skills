@@ -4,8 +4,10 @@ This repository holds skills for working with the Abaqus finite element software
 folder under `skills/` with a `SKILL.md` (when to use it, the workflow, the rules), `scripts/`,
 `references/` and `examples/`. All paths below are relative to this file.
 
-**Status: every skill is untested.** No script in this repository has been run in Abaqus yet. Say so
-to the user whenever a result depends on these scripts.
+**Status: verified on Abaqus 2023 only.** Every skill's worked example has been run end to end on
+Abaqus 2023 and matched its hand calculation (see `TEST_REPORT.md`). No other release has been
+tested, and only the worked examples are covered. Tell the user which release you are on, and that
+anything beyond those examples is unverified, whenever a result depends on these scripts.
 
 ## How to use this index
 

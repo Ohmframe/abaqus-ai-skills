@@ -70,7 +70,10 @@ def to_str(o):
     return o
 
 
-args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+# Abaqus strips the '--' separator before the script sees sys.argv (checked on 2023), so never
+# rely on it being there: scan the whole command line instead. Without this the script silently
+# fell back to DEFAULT_SPEC and ignored the JSON file.
+args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else sys.argv[1:]
 spec = dict(DEFAULT_SPEC)
 for a in args:
     if a.lower().endswith('.json'):

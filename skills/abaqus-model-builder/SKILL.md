@@ -5,8 +5,10 @@ description: Build a native Abaqus/CAE model (.cae plus .inp) from a JSON spec w
 
 # Abaqus model builder
 
-> **Status: untested.** The scripts and workflow in this skill have not been run in Abaqus yet.
-> Treat every number they produce as unverified until the checks below pass, and tell the user so.
+> **Status: verified on Abaqus 2023.** The worked example was run end to end (build -> datacheck ->
+> run -> log triage -> ODB extract) on Windows with Abaqus 2023: tip deflection -0.3819 mm against
+> the 0.384 mm hand value (0.5 %) and RF2 = 1000.0 N. Not yet run on any other release. Still run
+> the checks below on your own model and tell the user what you checked. See `TEST_REPORT.md`.
 
 Build Abaqus models as **scripts that generate a native `.cae`**: real parts, named sets and surfaces,
 sections, steps and a job. Then run them in batch and read the logs before you trust any number.
@@ -56,7 +58,7 @@ A script-built model can be rebuilt in any release, diffed, reviewed and re-run,
    example "will not be tied" with a tight tie tolerance) or a real problem.
 8. **Check the physics** (below), then extract results with `abaqus-odb-extract`.
 9. **Report** results with units, the checks you ran, every assumption, the warnings you accepted and
-   why, and that the scripts are untested.
+   why, and which Abaqus release you ran (these scripts are verified on 2023 only).
 
 ## Checks before you report
 

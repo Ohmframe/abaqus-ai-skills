@@ -21,7 +21,8 @@ Model
 
 Hand check for the defaults (examples/README.md): KE0 = 0.5 * m * v^2 = 12 500 mJ; the
 energy balance must hold (ETOTAL ~ constant, within ~1-2 % of KE0).
-Untested on Abaqus - verify before relying on it.
+Verified with its default parameters on Abaqus 2023 (ALLKE0 = 12 500.01 mJ, energy balance PASS);
+see examples/README.md. Verify your own parameter set before relying on it.
 
 Python 2.7 and 3.  OhmFrame - https://ohmframe.com - MIT licence.
 """
@@ -149,7 +150,11 @@ rp = a.ReferencePoint(point=(0.0, 0.0, zc))
 rp_reg = regionToolset.Region(referencePoints=(a.referencePoints[rp.id],))
 a.Set(name='RP_IMPACTOR', referencePoints=(a.referencePoints[rp.id],))
 a.Surface(name='IMPACTOR_SURF', side1Faces=isph.faces)
-mo.RigidBody(name='RB_IMPACTOR', refPointRegion=rp_reg, surfaceRegion=a.surfaces['IMPACTOR_SURF'])
+# surfaceRegion= is only for an ANALYTICAL rigid surface. A discrete rigid part is tied to its
+# reference point through bodyRegion= (element/face region), otherwise Abaqus raises
+# "The region corresponding to the analytical surface should belong to an analytical rigid part".
+a.Set(name='IMPACTOR_BODY', faces=isph.faces)
+mo.RigidBody(name='RB_IMPACTOR', refPointRegion=rp_reg, bodyRegion=a.sets['IMPACTOR_BODY'])
 I_sph = 2.0 / 3.0 * MASS * SPHERE_R ** 2               # thin spherical shell; only matters if it rotates
 a.engineeringFeatures.PointMassInertia(name='MASS_IMPACTOR', region=a.sets['RP_IMPACTOR'], mass=MASS,
                                        i11=I_sph, i22=I_sph, i33=I_sph, alpha=0.0, composite=0.0)

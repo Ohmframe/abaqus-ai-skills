@@ -170,6 +170,12 @@ def main(argv):
         rep['completed'] = True
     if 'HAS NOT BEEN COMPLETED' in sta.upper() or 'EXITED WITH ERROR' in log.upper():
         rep['completed'] = False
+    # A datacheck run writes no .log and no .sta at all (checked on Abaqus 2023): the only
+    # completion marker is in the .dat. Without this the triage of a clean datacheck reported
+    # 'completed: None' and exited 1.
+    if rep['completed'] is None and 'ANALYSIS DATACHECK COMPLETE' in (texts['dat'] or '').upper():
+        rep['completed'] = True
+        rep['datacheck'] = True
 
     n_err = 0
     for ext in ('log', 'msg', 'dat', 'sta'):

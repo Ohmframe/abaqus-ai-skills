@@ -30,4 +30,17 @@ abaqus python ../scripts/u_value.py slab.odb --set ALL_LAYERS --dT 20
 * Transient variant: add the `"transient"` block (see the script header); the steady-state values are
   the long-time limit for constant temperatures.
 
-Status: **not yet run in Abaqus**.
+## Result on Abaqus 2023 (verified)
+
+| Quantity | Hand calculation | Abaqus 2023 | Error |
+|---|---|---|---|
+| q_mean | 5.958 W/m2 | **5.95768 W/m2** | 0.00 % |
+| U | 0.2979 W/m2K | **0.297884 W/m2K** | 0.00 % |
+| NT at x = 0, inside surface | 19.23 degC | **19.2255 degC** | 0.00 % |
+| NT at BRICK / INSULATION | 18.45 degC | **18.4518 degC** | 0.01 % |
+| NT at INSULATION / BLOCK | 1.43 degC | **1.4298 degC** | 0.01 % |
+| NT at x = 0.3, outside surface | 0.24 degC | **0.2383 degC** | - |
+
+30 DC3D8 elements; build 2 s, solve 12 s. The transient variant (a `"transient"` block, 24 h cycle
+with Te swinging 0 -> 10 -> 0 degC) also builds and solves; its end-of-cycle flux is **not** the
+steady-state value, because the wall is still storing heat from the warm half of the day.

@@ -13,7 +13,7 @@
   <a href="#skills"><img src="https://img.shields.io/badge/skills-7-0a7bbb.svg" alt="Skills: 7"></a>
   <a href="#requirements"><img src="https://img.shields.io/badge/Abaqus-2020--2025-005386.svg" alt="Abaqus 2020-2025"></a>
   <a href="#requirements"><img src="https://img.shields.io/badge/python-2.7%20%7C%203-3776ab.svg" alt="Python 2.7 | 3"></a>
-  <a href="#status-what-is-and-is-not-verified"><img src="https://img.shields.io/badge/status-untested%20in%20Abaqus-orange.svg" alt="Status: untested in Abaqus"></a>
+  <a href="#status-what-is-and-is-not-verified"><img src="https://img.shields.io/badge/status-verified%20on%20Abaqus%202023-brightgreen.svg" alt="Status: verified on Abaqus 2023"></a>
 </p>
 
 Seven focused skill packs that give an AI assistant the workflow, scripts and hard-won pitfalls for
@@ -26,12 +26,16 @@ energy balance and extract the numbers, with a hand check before any result is r
   parameters at the top). Nothing project-specific, nothing clicked.
 * **Checks built in.** Each skill says which check must pass before a number is quoted: hand calculation,
   reaction balance, mesh check or energy balance.
-* **Honest status.** Nothing in this repository has been run in Abaqus yet. Every skill says so.
+* **Honest status.** Every worked example has now been run end to end on Abaqus 2023 and compared with
+  its hand calculation; the results and the fixes they forced are in [`TEST_REPORT.md`](TEST_REPORT.md).
+  No other release has been tested, and every skill says exactly what is and is not verified.
 
 > [!IMPORTANT]
-> **v0.1.0 is untested in Abaqus.** The scripts are byte-compiled and linted, and the worked examples
-> carry hand calculations to compare against, but no script has been run end-to-end in any Abaqus
-> release. Please [report what you get](CONTRIBUTING.md#most-useful-right-now).
+> **Verified on Abaqus 2023 only.** All seven worked examples were run end to end on Abaqus 2023
+> (Windows) and matched their hand calculations; seven script bugs were found and fixed in the process.
+> See [`TEST_REPORT.md`](TEST_REPORT.md) for every number, run time and fix. Other releases
+> (2020-2022, 2024, 2025) are still untested, and so is the cross-release path in
+> `abaqus-version-compat`. Please [report what you get](CONTRIBUTING.md#most-useful-right-now).
 
 ## Contents
 
@@ -84,15 +88,17 @@ Many scripts are also useful on their own from the command line.
 
 | Skill | What it does | Status |
 |---|---|---|
-| [`abaqus-model-builder`](skills/abaqus-model-builder/SKILL.md) | Builds a native `.cae` + `.inp` from a JSON spec (parts, materials, sections, assembly, steps, contact/ties, BCs, loads, mesh, job), runs it in batch with a datacheck, and triages `.log/.sta/.msg/.dat` | Untested |
-| [`abaqus-odb-extract`](skills/abaqus-odb-extract/SKILL.md) | Gets numbers out of an `.odb`: field max/min with location, reaction sums, histories, energies, de-duplicated contact forces, as CSV + `summary.json` | Untested |
-| [`abaqus-mesh-doctor`](skills/abaqus-mesh-doctor/SKILL.md) | Diagnoses and fixes meshes: Analysis Checks, orange cells, free edges in STEP shell models, partitioning for structured/sweep hex | Untested |
-| [`abaqus-version-compat`](skills/abaqus-version-compat/SKILL.md) | Rebuilds models for older releases, upgrades ODBs, lints scripts for the Python 2.7 (≤ 2023) and 3.10 (2024+) kernels | Untested |
-| [`abaqus-explicit-impact`](skills/abaqus-explicit-impact/SKILL.md) | Drop tests, impactor hits, heavy-mass impacts, quasi-static pull-out or crush in Explicit, with energy-balance checks | Untested |
-| [`abaqus-heat-transfer`](skills/abaqus-heat-transfer/SKILL.md) | Steady and transient conduction through layered build-ups, film boundaries, U-values and heat flux | Untested |
-| [`abaqus-forming-fld`](skills/abaqus-forming-fld/SKILL.md) | Sheet-forming limits: dome-stretch models, FLD damage initiation, necking onset, FLD strain points | Untested |
+| [`abaqus-model-builder`](skills/abaqus-model-builder/SKILL.md) | Builds a native `.cae` + `.inp` from a JSON spec (parts, materials, sections, assembly, steps, contact/ties, BCs, loads, mesh, job), runs it in batch with a datacheck, and triages `.log/.sta/.msg/.dat` | Verified on Abaqus 2023 |
+| [`abaqus-odb-extract`](skills/abaqus-odb-extract/SKILL.md) | Gets numbers out of an `.odb`: field max/min with location, reaction sums, histories, energies, de-duplicated contact forces, as CSV + `summary.json` | Verified on Abaqus 2023 |
+| [`abaqus-mesh-doctor`](skills/abaqus-mesh-doctor/SKILL.md) | Diagnoses and fixes meshes: Analysis Checks, orange cells, free edges in STEP shell models, partitioning for structured/sweep hex | Verified on Abaqus 2023 |
+| [`abaqus-version-compat`](skills/abaqus-version-compat/SKILL.md) | Rebuilds models for older releases, upgrades ODBs, lints scripts for the Python 2.7 (≤ 2023) and 3.10 (2024+) kernels | Verified on Abaqus 2023 (same-release round trip) |
+| [`abaqus-explicit-impact`](skills/abaqus-explicit-impact/SKILL.md) | Drop tests, impactor hits, heavy-mass impacts, quasi-static pull-out or crush in Explicit, with energy-balance checks | Verified on Abaqus 2023 |
+| [`abaqus-heat-transfer`](skills/abaqus-heat-transfer/SKILL.md) | Steady and transient conduction through layered build-ups, film boundaries, U-values and heat flux | Verified on Abaqus 2023 |
+| [`abaqus-forming-fld`](skills/abaqus-forming-fld/SKILL.md) | Sheet-forming limits: dome-stretch models, FLD damage initiation, necking onset, FLD strain points | Verified on Abaqus 2023 (mechanics; material illustrative) |
 
-*Untested* means: not yet run in Abaqus. See [Status](#status-what-is-and-is-not-verified).
+*Verified on Abaqus 2023* means: the skill's worked example was run end to end on Abaqus 2023 and
+matched its hand calculation. It does not mean the skill is correct for your model or your release.
+See [Status](#status-what-is-and-is-not-verified) and [`TEST_REPORT.md`](TEST_REPORT.md).
 
 Each skill folder has the same layout:
 
@@ -107,9 +113,9 @@ skills/<skill-name>/
 ## Example
 
 > [!NOTE]
-> **Illustrative only, untested.** The exchange below shows the intended workflow. It was written by
-> hand, not captured from a real session, and the scripts have not been run in Abaqus. The only numbers
-> shown are the hand-calculation targets from the example README.
+> **Illustrative.** The exchange below shows the intended workflow; it was written by hand, not
+> captured from a real session. The Abaqus column holds the numbers actually produced on
+> Abaqus 2023 (see [`TEST_REPORT.md`](TEST_REPORT.md)).
 
 **Prompt**
 
@@ -132,13 +138,13 @@ Units: mm-N-tonne-s-MPa. Spec: skills/abaqus-model-builder/examples/cantilever_b
 4. abaqus python odb_extract.py Cantilever.odb --field U:U2 --reactions FIXED_END \
        --history-set RP_TIP --out post
 
-Check                     Hand calculation          Abaqus (from your run)
-Tip deflection U2         -0.384 mm                 <post/summary.json>
-Support reaction RF2      +1000 N                   <post/summary.json>
-S11 at mid-span           +/-6.0 MPa                <post/field_S_S11_*.csv>
+Check                     Hand calculation          Abaqus 2023
+Tip deflection U2         -0.384 mm                 -0.38191 mm   (0.5 %)
+Support reaction RF2      +1000 N                   +1000.00 N    (0.00 %)
+S11 at mid-span           +/-6.0 MPa (surface)      5.400 MPa at the integration points
 
 Report a result only if the tip deflection is within about 2 % of the hand value and the
-reaction balances the load. Note: these scripts are untested in Abaqus.
+reaction balances the load.
 ```
 
 ## Use with other AI tools
@@ -173,7 +179,7 @@ adapts and reads them.
 * A **licensed Abaqus installation** (Abaqus/CAE for `abaqus cae noGUI=` scripts, the solver for jobs).
   Nothing here includes or provides licences, solvers or SIMULIA software.
 * Target releases: **Abaqus 2020 to 2025**. The scripts are written for both Abaqus Python kernels:
-  2.7 (Abaqus 2023 and older) and 3.10 (Abaqus 2024 and newer). No release has been tested yet.
+  2.7 (Abaqus 2023 and older) and 3.10 (Abaqus 2024 and newer). Only Abaqus 2023 has been tested.
 * Helpers that do not touch Abaqus (`check_logs.py`, `validate_spec.py`, `py23_check.py`) run on any Python 2.7 or 3.
 * Bash for the `.sh` helpers (Linux, macOS, WSL or Git Bash on Windows).
 
@@ -187,21 +193,30 @@ What **is** checked:
 * `validate_spec.py` accepts the example spec.
 * The hand calculations in the example READMEs.
 
+* **Every worked example runs end to end on Abaqus 2023** (Windows) and matches its hand calculation.
+  Per-skill numbers, run times and the seven bugs this found are in [`TEST_REPORT.md`](TEST_REPORT.md).
+
 What is **not** verified:
 
-* **No script in this repository has been run in Abaqus**, in any release. Results, API calls and
-  keyword choices may need fixes for your release.
-* The workflows and pitfalls come from production Abaqus work that OhmFrame has delivered, but the generic
-  scripts here were written for this repository and are untested.
+* **Only Abaqus 2023.** No other release has been tried. API calls and keyword choices may still need
+  fixes for 2020-2022, 2024 or 2025.
+* **The cross-release path** in `abaqus-version-compat`: the export/rebuild round trip was tested
+  inside 2023 only, because no second release was available.
+* `shell_weld.py`: it runs clean, but its imprint-and-merge path has not been exercised by a real
+  CAD STEP file (the synthetic test geometry came back already stitched).
+* The default material and FLC in `abaqus-forming-fld` are illustrative. A verified workflow is not a
+  verified forming limit.
+* Anything beyond the worked examples: the workflows and pitfalls come from production Abaqus work
+  OhmFrame has delivered, but the generic scripts here are only verified on those examples.
 
 Each example README lists the hand calculation the result should match. If yours does not, please
 [open an issue](https://github.com/Ohmframe/abaqus-ai-skills/issues/new/choose) with your release and output.
 
 ## Roadmap
 
-* **Now (v0.1.0)**: seven Abaqus skills, all untested in Abaqus.
-* **Next for Abaqus**: run every worked example in Abaqus releases from 2020 to 2025, fix what breaks,
-  and mark each skill as tested per release, with the release named.
+* **Now**: seven Abaqus skills, all seven worked examples verified on Abaqus 2023.
+* **Next for Abaqus**: repeat the Abaqus 2023 test run on 2020-2022, 2024 and 2025, fix what breaks,
+  and mark each skill as tested per release; test the genuine cross-release export/rebuild path.
 * **COMSOL Multiphysics skills**: model building through the COMSOL API (Java, or Python via MPh),
   study set-up, and result extraction.
 * **Ansys skills**: Mechanical / MAPDL scripting (APDL and PyAnsys), batch runs, and result extraction.
@@ -210,8 +225,9 @@ Each example README lists the hand calculation the result should match. If yours
 ## FAQ
 
 **Has any of this been run in Abaqus?**
-Not yet. Every skill is marked untested. The scripts compile and pass a linter, and each example has a
-hand calculation to compare against. We will mark skills as tested, per release, once they have been run.
+Yes, on Abaqus 2023: all seven worked examples, end to end, compared with their hand calculations.
+That run found and fixed seven script bugs. Read [`TEST_REPORT.md`](TEST_REPORT.md) for every number and
+fix. No other release has been tested yet; skills will be marked per release as that happens.
 
 **Do I need an Abaqus licence?**
 Yes. This repository contains no Abaqus software. Model building uses `abaqus cae noGUI=` (a CAE token);

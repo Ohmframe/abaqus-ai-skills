@@ -32,5 +32,18 @@ longer be meshed STRUCTURED. That is the failure this skill is about.
   (12 elements per 45° of arc, linear C3D8I) it should land within a few percent.
 * Reaction check: the sum of RF1 on set `X0` = -sigma x (H/2) x t = **-50 000 N** (100 MPa x 100 mm x 5 mm).
 
-Status: **not yet run in Abaqus** (written by OhmFrame, never executed). If your numbers differ,
-check the seed directions on the biased radial edges first.
+## Result on Abaqus 2023 (verified)
+
+| Check | Expected | Abaqus 2023 |
+|---|---|---|
+| cells after the butterfly cut | 2 | **2** |
+| non-hex elements | 0 | **0** |
+| Analysis Checks errors / warnings | 0 / 0 | **0 / 0** |
+| mesh | - | 624 C3D8I, 1 050 nodes |
+| S11 max (integration points) | 300-320 MPa | **319.86 MPa**, i.e. Kt = 3.20, 1.9 % above the 314 MPa Heywood value |
+| S11 at node set HOLE_TOP | - | **331-341 MPa**, extrapolated to the nodes so above the integration-point peak |
+| RF1 sum on set X0 | -50 000 N | **-50 000 N** |
+
+Build 2 s, solve 15 s. `mesh_diagnose.py` on the result reports cell controls
+`{'HEX/STRUCTURED': 2}`, 0 free geometry edges and 0 bad elements. If your numbers differ, check
+the seed directions on the biased radial edges first.

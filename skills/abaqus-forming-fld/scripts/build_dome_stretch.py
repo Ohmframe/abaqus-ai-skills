@@ -19,7 +19,8 @@ strain path toward uniaxial / plane strain, as in the standard test series.
 
 The default material and FLC are ILLUSTRATIVE (a generic mild-steel-like power law and a
 textbook-shaped FLC). Replace them with measured data for any real use.
-Untested on Abaqus - verify before relying on it.
+The mechanics were verified on Abaqus 2023 (onset at 53.7 mm, quasi-static and energy checks PASS);
+see examples/README.md. The material and FLC are illustrative - verify before relying on it.
 
 Python 2.7 and 3.  OhmFrame - https://ohmframe.com - MIT licence.
 """
@@ -48,7 +49,8 @@ T_SHEET = 1.0
 SEED = 2.0
 R_PUNCH = 50.0
 GAP = 0.2
-DEPTH = 40.0                 # punch stroke
+DEPTH = 70.0                 # punch stroke (onset lands at ~53 mm with the default FLC; 40 mm
+                             # only reaches criterion 0.65, i.e. no onset at all)
 FRICTION = 0.05              # lubricated punch
 RHO, E, NU = 7.85e-9, 210000.0, 0.3
 K_HARD, N_HARD, EPS0 = 500.0, 0.22, 0.005     # sigma = K (eps0 + eps_p)^n  (illustrative)
@@ -56,7 +58,9 @@ FLC = ((0.60, -0.30), (0.45, -0.15), (0.30, 0.0), (0.35, 0.15), (0.40, 0.30))   
 G_FRACTURE = 10.0            # damage evolution energy, mJ/mm^2 (N/mm)
 DELETE = True
 T_END = 0.02
-MASS_SCALING_DT = 5.0e-7     # None = no mass scaling
+MASS_SCALING_DT = None       # None = no mass scaling. 5e-7 here adds ~280 % mass (DMASS) on the
+                             # default 2 mm seed, which energy_balance.py rightly FAILs; the
+                             # unscaled run is only about 2x more increments.
 N_FIELD = 40
 SUBMIT = 'submit' in sys.argv
 # ============================================================== END PARAMETERS
@@ -129,8 +133,12 @@ a.translate(instanceList=('PUNCH-1',), vector=(0.0, 0.0, z_apex - R_PUNCH))
 rp = a.ReferencePoint(point=(0.0, 0.0, z_apex - R_PUNCH))
 a.Set(name='RP_PUNCH', referencePoints=(a.referencePoints[rp.id],))
 a.Surface(name='PUNCH_SURF', side1Faces=ipn.faces)
+# surfaceRegion= is only for an ANALYTICAL rigid surface; a discrete rigid part is tied to its
+# reference point with bodyRegion= (otherwise: "The region corresponding to the analytical surface
+# should belong to an analytical rigid part instance").
+a.Set(name='PUNCH_BODY', faces=ipn.faces)
 mo.RigidBody(name='RB_PUNCH', refPointRegion=regionToolset.Region(referencePoints=(a.referencePoints[rp.id],)),
-             surfaceRegion=a.surfaces['PUNCH_SURF'])
+             bodyRegion=a.sets['PUNCH_BODY'])
 
 eps = 1e-3
 clamp = [n.label for n in ib.nodes if math.hypot(n.coordinates[0], n.coordinates[1]) >= R_CLAMP - eps]

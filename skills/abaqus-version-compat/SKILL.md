@@ -5,9 +5,11 @@ description: Move Abaqus models, scripts and results between releases - rebuild 
 
 # Abaqus version compatibility
 
-> **Status: untested.** The Abaqus scripts in this skill have not been run in Abaqus yet (only the
-> plain-Python linter `py23_check.py` runs in our CI). Treat every export and rebuild as unverified
-> until the checks below pass, and tell the user so.
+> **Status: verified on Abaqus 2023 (same-release round trip only).** `export_for_older.py` ->
+> `rebuild_from_inp.py` -> re-solve reproduced the cantilever bit for bit (-0.3819 mm, RF2 = 1000 N),
+> and `odb_upgrade.py --check` and `py23_check.py` behave as documented. The actual cross-release
+> step (export in a newer release, rebuild in an older one) is **not** verified: only Abaqus 2023 was
+> available. Treat the version matrix as guidance. See `TEST_REPORT.md`.
 
 `.cae` and `.odb` files only go forward: a newer release opens an older file, never the reverse.
 Anything going to an OLDER release must be rebuilt. Our rule at OhmFrame: every model is created by a

@@ -5,9 +5,12 @@ description: Sheet-metal forming limit analysis in Abaqus/Explicit - Nakajima-ty
 
 # Abaqus forming limit (FLD)
 
-> **Status: untested.** The scripts and workflow in this skill have not been run in Abaqus yet, and
-> the default material and FLC are illustrative. Treat every prediction as unverified until it is
-> compared with test data, and tell the user so.
+> **Status: verified on Abaqus 2023 (mechanics only, not the material).** The dome-stretch example
+> runs to necking onset and element deletion (onset at 53.7 mm of a 70 mm stroke, punch force
+> collapsing from 15.6 kN), the strain-path series moves from biaxial to plane strain as documented,
+> and `energy_balance.py --mode quasistatic` is OVERALL PASS. The default material and FLC are still
+> **illustrative**: a verified workflow is not a verified forming limit. Treat every prediction as
+> unverified until it is compared with test data, and tell the user so. See `TEST_REPORT.md`.
 
 Necking prediction in sheet forming with the forming limit diagram (FLD) damage initiation criterion
 in Abaqus/Explicit.

@@ -5,8 +5,10 @@ description: Post-process Abaqus .odb result files with a generic, parameterised
 
 # Abaqus ODB extract
 
-> **Status: untested.** The scripts in this skill have not been run in Abaqus yet.
-> Treat every extracted value as unverified until the checks below pass, and tell the user so.
+> **Status: verified on Abaqus 2023.** `odb_probe.py` and `odb_extract.py` were run on Standard,
+> Explicit and heat-transfer ODBs from the other skills' examples: field max/min with location,
+> reaction sums, histories, energies and the graceful "no contact history" path all behaved as
+> documented. Not yet run on any other release. See `TEST_REPORT.md`.
 
 Get numbers out of an `.odb` with `abaqus python` (odbAccess; uses no CAE licence token) and write them
 to CSV and JSON that any tool can read. The values the user quotes must come from the ODB itself,

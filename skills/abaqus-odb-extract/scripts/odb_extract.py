@@ -142,6 +142,31 @@ def nodeset_region_names(ns):
 
 
 # ----------------------------------------------------------------------------- field output
+def subset_region(fo, region, var):
+    """Restrict a field to a region.
+
+    An integration-point field (S, E, PEEQ ...) cannot be subset by a NODE set: Abaqus returns an
+    empty field, and the later getScalarField() then fails with the useless 'Invalid component
+    label'. Retry at ELEMENT_NODAL, which is what you want anyway when you ask for stress 'at'
+    a node set (the values are extrapolated to the nodes, so at a stress concentration they
+    overshoot the integration-point peak).
+    """
+    sub = fo.getSubset(region=region)
+    if len(sub.values):
+        return sub
+    try:
+        sub2 = fo.getSubset(region=region, position=C.ELEMENT_NODAL)
+    except Exception:
+        sub2 = None
+    if sub2 is not None and len(sub2.values):
+        print('  NOTE: %s is an integration-point field; the region is a node set, so values are '
+              'extrapolated to the nodes (ELEMENT_NODAL)' % var)
+        return sub2
+    raise KeyError('field %s has no values in the requested --region. Check that the set belongs to '
+                   'the right kind of entity (element/integration-point fields need an element set '
+                   'or an instance; nodal fields need a node set).' % var)
+
+
 def scalar_values(fo, comp):
     """Return (values, getter) where getter(v) gives a float."""
     if comp is None:
@@ -170,7 +195,7 @@ def field_extract(odb, step, frames, spec, region, outdir):
                            % (var, k, sorted(fr.fieldOutputs.keys())))
         fo = fr.fieldOutputs[var]
         if region is not None:
-            fo = fo.getSubset(region=region)
+            fo = subset_region(fo, region, var)
         vals, get = scalar_values(fo, comp)
         rows, vmax, vmin = [], None, None
         for v in vals:

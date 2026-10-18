@@ -5,8 +5,10 @@ description: Build and post-process Abaqus heat-transfer models - steady-state a
 
 # Abaqus heat transfer
 
-> **Status: untested.** The scripts and workflow in this skill have not been run in Abaqus yet.
-> Treat every result as unverified until it matches the 1D hand calculation, and tell the user so.
+> **Status: verified on Abaqus 2023.** The three-layer wall example gives U = 0.29788 W/m2K against
+> the 0.29788 hand value (0.00 %) and interface temperatures matching the 1D hand calculation to
+> 0.01 degC; the transient variant also runs. Not yet run on any other release. Still check your own
+> model against the 1D hand calculation and tell the user so. See `TEST_REPORT.md`.
 
 Conduction problems built by script, compared with the 1D hand calculation, then post-processed with
 volume-weighted heat fluxes.

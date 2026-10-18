@@ -24,4 +24,16 @@ Better: the builder script itself runs on 2.7 and 3, so in the older release sim
 | rebuild_log.json | status `ok`, 1 part (orphan mesh), 1 step |
 | job from the rebuilt model | same tip deflection as the original (≈ 0.38 mm, see the model-builder example) |
 
-Status: **not yet run in Abaqus**.
+## Result on Abaqus 2023 (verified, same-release round trip)
+
+| Check | Expected | Abaqus 2023 |
+|---|---|---|
+| `export_manifest.json` -> models[0].keywords | NODE, ELEMENT, MATERIAL, ELASTIC, STEP, STATIC, BOUNDARY, CLOAD | **all present**, 28 keywords |
+| export files | `.inp` plus `.sat`/`.stp` per part | **Cantilever.inp, Cantilever__BEAM.sat, Cantilever__BEAM.stp** |
+| `rebuild_log.json` | status `ok`, 1 part, 1 step | **ok, 1 part (orphan mesh), 1 step, 1 material** |
+| job from the rebuilt model | same tip deflection as the original | **-0.38191 mm, RF2 = 1000 N: identical** |
+| `odb_upgrade.py --check` on a 2023 ODB | "current format" | **current format, steps=['Load']** |
+| `py23_check.py` on the builder scripts | 0 errors | **3 files, 0 errors, 0 warnings** |
+
+Only Abaqus 2023 was available, so the export was rebuilt in the **same** release. The genuine
+cross-release step (export in a newer release, rebuild in an older one) is still untested.

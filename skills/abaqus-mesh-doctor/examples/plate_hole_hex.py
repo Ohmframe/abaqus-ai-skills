@@ -17,7 +17,8 @@ colours the region yellow/orange (sweep with distortion or tet only).
 Expected (hand calc, see README.md): sigma_xx max at the hole edge on the y axis
 ~ 300-320 MPa for 100 MPa remote tension (Kt gross 3.0 infinite plate; finite-width Heywood
 Kt_net = 2 + (1 - d/W)^3 = 2.51 on net stress 125 MPa -> 314 MPa).
-Untested on Abaqus - verify before relying on it.
+Verified on Abaqus 2023: 2 cells, 0 non-hex elements, 0 Analysis Checks errors/warnings,
+S11 max 319.9 MPa (Kt 3.20) and RF1 = -50 000 N. See README.md.
 
 Python 2.7 and 3.  OhmFrame - https://ohmframe.com - MIT licence.
 """

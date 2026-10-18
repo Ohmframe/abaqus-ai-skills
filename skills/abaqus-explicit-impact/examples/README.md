@@ -28,4 +28,17 @@ abaqus python ../../abaqus-odb-extract/scripts/odb_extract.py drop_test.odb \
 * ALLKE falls from 12 500 mJ; ALLIE (mostly ALLPD) rises; ETOTAL stays ~flat.
 * RP V3 goes from -5000 mm/s through zero to a small positive rebound value.
 
-Status: **not yet run in Abaqus**. The numbers above are hand estimates to sanity-check the run, not results.
+## Result on Abaqus 2023 (verified)
+
+| Quantity | Hand estimate | Abaqus 2023 | Error |
+|---|---|---|---|
+| initial kinetic energy | 12 500 mJ | **12 500.01 mJ** | 0.0001 % |
+| stable increment | 4-7e-7 s | **6.12e-7 s** | in range |
+| increments for 3 ms | 4 000-8 000 | **4 833** | in range |
+| energy at the end | ETOTAL about flat | ALLPD 8 012, ALLSE 965, ALLKE 3 292, ALLAE 190, ETOTAL 12 500 mJ | drift 0.022 % |
+| RP V3 | -5 000 mm/s to a small positive rebound | **-5 000 -> +2 424 mm/s** | - |
+| `energy_balance.py` | PASS or WARN | **OVERALL PASS**: hourglass 2.09 %, drift 0.022 %, ke0 0.000 %, dmass 0 % | - |
+
+2 500 S4R plus 941 R3D4; build 2 s, solve 23 s on 2 CPUs. The 18 `.dat` warnings are all benign
+("output request S/PEEQ/STATUS is not available for element type R3D4/MASS/ROTARYI", i.e. the
+field request also covers the rigid impactor).

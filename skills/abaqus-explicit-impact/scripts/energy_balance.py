@@ -117,7 +117,10 @@ def main(argv):
         add('quasistatic', max(ke[i] / ie[i] for i in half) if half else None, LIMITS['quasistatic'],
             'ALLKE/ALLIE over the second half; high -> load too fast, use smooth-step amplitude or longer time')
     if dm:
-        add('dmass', abs(dm[-1]), LIMITS['dmass'], 'fractional mass added by mass scaling (DMASS)')
+        # DMASS is a PERCENTAGE change of total mass (same number as the CHNG MASS column of the
+        # .sta), not a fraction - checked against Abaqus 2023. Convert before comparing to LIMITS.
+        add('dmass', abs(dm[-1]) / 100.0, LIMITS['dmass'],
+            'fraction of mass added by mass scaling (DMASS/100; DMASS is a percentage)')
     if mw and ie_peak > 0:
         add('mass_work', abs(mw[-1]) / ie_peak, LIMITS['mass_work'], 'ALLMW/ALLIE: energy injected by mass scaling')
     if vd:

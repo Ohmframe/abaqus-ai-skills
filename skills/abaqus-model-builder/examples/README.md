@@ -35,5 +35,18 @@ Expect U2 at RP_TIP of about -0.38 mm (within 2 % of the hand value), a support 
 1000 N, and zero errors in the log check. A larger difference points to the mesh (try C3D8R: it
 needs at least 4 elements through the depth) or to the coupling.
 
-> We have not run this example in Abaqus yet. The numbers above are the hand-calculation targets.
-> Please report what you get.
+## Result on Abaqus 2023 (verified)
+
+| Quantity | Hand calculation | Abaqus 2023 | Error |
+|---|---|---|---|
+| Tip deflection U2 at RP_TIP | -0.384 mm | **-0.38191 mm** | 0.5 % |
+| Support reaction sum RF2 | +1000 N | **+1000.00 N** | 0.00 % |
+| S11, top fibre at mid-span | 6.0 MPa at the surface | **5.400 MPa** at the integration points | see note |
+| Analysis Checks / log errors | 0 | **0 / 0** | - |
+
+Build 6 s, solve 17 s on 1 CPU, 5 000 C3D8I elements.
+
+Note on the 6.0 MPa: that is the value at the **surface** (c = 50 mm, x = 500 mm). The integration
+points of the top element layer sit at c = 42.1 and 47.9 mm and x = 495 and 505 mm, where beam
+theory gives exactly 5.40 MPa - which is what Abaqus reports (mean of all 80 points). Ask for
+nodal-extrapolated values if you want to compare against the surface figure.
