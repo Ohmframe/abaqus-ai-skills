@@ -1,0 +1,9 @@
+---
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/Ohmframe/abaqus-ai-skills/security/policy
+    about: Please do not open a public issue for security problems. Follow SECURITY.md instead.
+  - name: Professional Abaqus services from OhmFrame
+    url: https://ohmframe.com
+    about: Model building, debugging, mesh repair or custom Abaqus automation for your team.

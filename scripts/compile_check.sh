@@ -2,6 +2,10 @@
 # compile_check.sh - every .py must byte-compile, and pass the Python 2.7/3 + Abaqus hazard linter.
 #   scripts/compile_check.sh
 # Uses python3 (and python2 too, if installed). Exit 0 = all good.
+# Python 2.7 is optional: GitHub's ubuntu-latest runners ship no python2, so in CI the 2.7
+# byte-compile is skipped (reported as 'skipped') and only python3 + the py23 linter run. The
+# linter (py23_check.py) still flags Python-2.7 hazards such as f-strings. To cover 2.7 locally,
+# put a python2 interpreter on PATH before running this script.
 set -u
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 rc=0
