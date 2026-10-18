@@ -5,10 +5,10 @@ description: Build a native Abaqus/CAE model (.cae plus .inp) from a JSON spec w
 
 # Abaqus model builder
 
-> **Status: verified on Abaqus 2023.** The worked example was run end to end (build -> datacheck ->
-> run -> log triage -> ODB extract) on Windows with Abaqus 2023: tip deflection -0.3819 mm against
-> the 0.384 mm hand value (0.5 %) and RF2 = 1000.0 N. Not yet run on any other release. Still run
-> the checks below on your own model and tell the user what you checked. See `TEST_REPORT.md`.
+> **Status: verified on Abaqus 2023.** The cantilever example runs end to end (build -> datacheck ->
+> run -> log triage -> ODB extract): tip deflection -0.38191 mm vs -0.384 mm hand value (0.5 %),
+> RF2 1000.00 N vs 1000 N (0.00 %). On your own model, run the checks below and tell the user what
+> you checked. Abaqus 2024+ is not yet tested. See `TEST_REPORT.md`.
 
 Build Abaqus models as **scripts that generate a native `.cae`**: real parts, named sets and surfaces,
 sections, steps and a job. Then run them in batch and read the logs before you trust any number.

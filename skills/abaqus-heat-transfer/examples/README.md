@@ -1,5 +1,7 @@
 # Worked example: U-value of a three-layer wall (steady state)
 
+**Verified on Abaqus 2023:** U 0.297884 vs 0.29788 W/m2K hand value (0.00 %); interface temperatures within 0.01 degC.
+
 Default parameters of `../scripts/build_layered_slab.py`: a textbook build-up (values are generic
 handbook-type figures, not from any project), inside at 20 °C, outside at 0 °C.
 

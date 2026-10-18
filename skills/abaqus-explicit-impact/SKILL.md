@@ -5,11 +5,10 @@ description: Set up, run and sanity-check Abaqus/Explicit impact and dynamic-con
 
 # Abaqus/Explicit impact
 
-> **Status: verified on Abaqus 2023.** The drop-test example was built, solved and checked: initial
-> ALLKE 12 500.0 mJ against the 12 500 mJ hand value, stable increment 6.1e-7 s and 4 833 increments
-> inside the predicted ranges, energy drift 0.02 %, `energy_balance.py` OVERALL PASS. Not yet run on
-> any other release. Treat every result on your own model as unverified until the energy balance and
-> hand checks below pass, and tell the user so. See `TEST_REPORT.md`.
+> **Status: verified on Abaqus 2023.** The drop-test example gives initial ALLKE 12 500.01 mJ vs the
+> 12 500 mJ hand value (0.0001 %), stable increment 6.1e-7 s and 4 833 increments inside the predicted
+> ranges, energy drift 0.022 %, `energy_balance.py` OVERALL PASS. On your own model, report results only
+> after the energy balance and hand checks below pass. Abaqus 2024+ is not yet tested. See `TEST_REPORT.md`.
 
 Explicit dynamic models built from parameters: check the time step before running, and never report
 a result without the energy balance.

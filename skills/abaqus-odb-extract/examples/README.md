@@ -1,5 +1,7 @@
 # Worked example: post-process the cantilever
 
+**Verified on Abaqus 2023:** reproduces the cantilever hand checks from the ODB, U2 -0.38191 mm vs -0.384 mm (0.5 %) and RF2 1000.00 N vs 1000 N (0.00 %).
+
 This uses `Cantilever.odb` from the `abaqus-model-builder` example (a steel cantilever, P = 1000 N,
 L = 1000 mm, section 100 x 50 mm).
 

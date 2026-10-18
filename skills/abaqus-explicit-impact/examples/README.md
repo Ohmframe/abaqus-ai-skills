@@ -1,5 +1,7 @@
 # Worked example: sphere dropped on a clamped plate
 
+**Verified on Abaqus 2023:** initial KE 12 500.01 mJ vs 12 500 mJ hand value (0.0001 %); energy drift 0.022 %; `energy_balance.py` OVERALL PASS.
+
 `../scripts/build_drop_test.py` with its default parameters: a 1 kg rigid sphere (R 25 mm) at
 5 m/s onto a 200 x 200 x 2 mm clamped steel plate (S4R, bilinear plasticity). Units mm-t-s-N-MPa.
 

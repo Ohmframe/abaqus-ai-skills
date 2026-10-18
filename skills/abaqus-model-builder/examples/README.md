@@ -1,5 +1,7 @@
 # Worked example: steel cantilever with a tip load
 
+**Verified on Abaqus 2023:** tip deflection -0.38191 mm vs -0.384 mm hand value (0.5 %); RF2 1000.00 N vs 1000 N (0.00 %).
+
 A textbook case with a closed-form answer, so you can confirm the whole chain works
 (spec -> `.cae` -> job -> logs -> ODB) before you build anything real.
 

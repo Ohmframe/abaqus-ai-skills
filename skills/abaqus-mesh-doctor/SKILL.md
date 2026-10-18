@@ -5,12 +5,12 @@ description: Diagnose and fix Abaqus meshes - Analysis Checks errors and warning
 
 # Abaqus mesh doctor
 
-> **Status: verified on Abaqus 2023.** The worked example meshes as documented (2 cells, 0 non-hex
-> elements, 0 Analysis Checks errors and warnings) and solves to Kt = 3.20 on the integration points
-> against the 3.0-3.14 hand range, with RF1 = -50 000 N exactly. `mesh_diagnose.py`,
-> `optimize_hex_mesh.py` (2 warnings -> 0) and `scratch_static_check.py` (reaction = weight to 6
-> digits) were run too; `shell_weld.py` runs clean but its imprint/merge path is not yet exercised
-> by a real CAD STEP. Not yet run on any other release. See `TEST_REPORT.md`.
+> **Status: verified on Abaqus 2023.** The plate-with-hole example meshes as documented (2 cells,
+> 0 non-hex elements, 0 Analysis Checks errors/warnings) and gives Kt 3.20 vs 3.14 Heywood (1.9 %),
+> RF1 -50 000 N exact. `mesh_diagnose.py`, `optimize_hex_mesh.py` (2 warnings -> 0) and
+> `scratch_static_check.py` (reaction = weight) verified too. `shell_weld.py` runs end to end; its
+> imprint/merge path still needs a real CAD STEP. Kt is from a single mesh. Abaqus 2024+ is not yet
+> tested. See `TEST_REPORT.md`.
 
 Get an Abaqus mesh from "won't mesh / job dies" to a solvable mesh with evidence.
 Diagnose first, change second, prove last.

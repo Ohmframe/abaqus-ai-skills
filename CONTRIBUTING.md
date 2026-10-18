@@ -55,8 +55,9 @@ Every `SKILL.md` uses the same structure, in this order:
 
 1. Frontmatter: `name` (equal to the folder name) and `description` (what it does, then
    "Use when ..." with the phrases a user would actually type; under 1024 characters).
-2. `# Title`, then a **Status** note. Until a skill has been run in Abaqus it must say
-   **untested**; once it has, name the release(s) and what was compared. Never claim more.
+2. `# Title`, then a **Status** note naming the Abaqus release(s) the worked example was verified on
+   and its key result against the hand calculation. A new skill that has not been run in Abaqus yet
+   says so until it has. Claim only what was run.
 3. `## When to use` (including "Not for: ..." pointers to other skills), `## Files`, `## Workflow`,
    `## Checks before you report`, `## Rules`, `## References`, `## Background`.
 

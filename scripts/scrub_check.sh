@@ -18,6 +18,11 @@
 # Allowed e-mail addresses: the generic OhmFrame role addresses below (used in CODE_OF_CONDUCT.md,
 # SECURITY.md and the issue templates). Any other address fails the check.
 #
+# Scope: inside a git work tree only files git knows about are scanned (tracked files plus new,
+# untracked files that are NOT git-ignored: `git ls-files --cached --others --exclude-standard`),
+# so git-ignored scratch such as example runs (.odb/.cae/.sat written by Abaqus) never trips the
+# gate. Outside a git work tree (for example an unpacked zip) every file is scanned.
+#
 # Exit 0 = clean, 1 = hits found, 2 = usage/denylist problem.
 set -u
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -53,30 +58,41 @@ else
   fi
 fi
 hits=0
-if [ "$SKIP_DENY" = "1" ]; then
-  echo "scrub_check: regex checks only, scanning $REPO"
+# ---- file list: git-known files inside a work tree, else everything except .git
+LIST="$(mktemp)"
+trap 'rm -f "$PATTERNS" "$LIST"' EXIT
+if git -C "$REPO" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  SCOPE="git-known files (tracked + untracked, not ignored)"
+  (cd "$REPO" && git ls-files -z --cached --others --exclude-standard) |
+    while IFS= read -r -d '' f; do [ -f "$REPO/$f" ] && printf '%s\0' "$REPO/$f"; done > "$LIST"
 else
-  echo "scrub_check: $N denylist terms, scanning $REPO"
-  if out=$(grep -rniIF --exclude-dir=.git -f "$PATTERNS" "$REPO"); then
+  SCOPE="all files (not a git work tree)"
+  find "$REPO" -path "$REPO/.git" -prune -o -type f -print0 > "$LIST"
+fi
+NFILES=$(tr -cd '\0' < "$LIST" | wc -c)
+scan() { xargs -0 -r grep "$@" < "$LIST"; }
+if [ "$SKIP_DENY" = "1" ]; then
+  echo "scrub_check: regex checks only, scanning $NFILES $SCOPE in $REPO"
+else
+  echo "scrub_check: $N denylist terms, scanning $NFILES $SCOPE in $REPO"
+  if out=$(scan -nHiIF -f "$PATTERNS") && [ -n "$out" ]; then
     echo "--- denylisted terms:"; echo "$out"; hits=1
   fi
 fi
 # every address is checked on its own (-o), so an allowed address cannot hide another one on the same line
-if out=$(grep -rnoIE --exclude-dir=.git '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$REPO" |
+if out=$(scan -nHoIE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' |
          awk -v ok="$ALLOWED_EMAILS" '{ a = $0; sub(/^.*:[0-9]+:/, "", a); if (tolower(a) !~ ok) print }') && [ -n "$out" ]; then
   echo "--- e-mail addresses:"; echo "$out"; hits=1
 fi
-if out=$(grep -rnIE --exclude-dir=.git '(^|[^A-Za-z])[A-Za-z]:(\\\\|\\|/)(Users|Documents|Desktop|Temp|SIMULIA|Program)' "$REPO"); then
+if out=$(scan -nHIE '(^|[^A-Za-z])[A-Za-z]:(\\\\|\\|/)(Users|Documents|Desktop|Temp|SIMULIA|Program)') && [ -n "$out" ]; then
   echo "--- Windows paths:"; echo "$out"; hits=1
 fi
-if out=$(grep -rnIiE --exclude-dir=.git '(^|[^A-Za-z])[A-Za-z]:\\\\?[A-Za-z0-9_ ]+\\' "$REPO"); then
+if out=$(scan -nHIiE '(^|[^A-Za-z])[A-Za-z]:\\\\?[A-Za-z0-9_ ]+\\') && [ -n "$out" ]; then
   echo "--- Windows paths (generic):"; echo "$out"; hits=1
 fi
-# binary or result files that should never be committed
-if out=$(find "$REPO" -path "$REPO/.git" -prune -o -type f \( -iname '*.odb' -o -iname '*.cae' -o -iname '*.jnl' \
-         -o -iname '*.zip' -o -iname '*.step' -o -iname '*.stp' -o -iname '*.sat' -o -iname '*.xlsx' -o -iname '*.pdf' \) -print); then
-  if [ -n "$out" ]; then echo "--- files that must not be in the repo:"; echo "$out"; hits=1; fi
-fi
+# binary or result files that should never be committed (checked on the same file list)
+out=$(tr '\0' '\n' < "$LIST" | grep -iE '\.(odb|cae|jnl|zip|step|stp|sat|xlsx|pdf)$')
+if [ -n "$out" ]; then echo "--- files that must not be in the repo:"; echo "$out"; hits=1; fi
 if [ $hits -eq 0 ]; then
   echo "scrub_check: CLEAN"
   exit 0

@@ -1,5 +1,7 @@
 # Worked example: take the cantilever back to an older release
 
+**Verified on Abaqus 2023 (same-release round trip):** the rebuilt model reproduces the original exactly, -0.381909 mm and RF2 1000 N; the cross-release step is not yet tested.
+
 Uses the cantilever from `abaqus-model-builder/examples/cantilever_beam.json`.
 
 ```bash
@@ -35,5 +37,6 @@ Better: the builder script itself runs on 2.7 and 3, so in the older release sim
 | `odb_upgrade.py --check` on a 2023 ODB | "current format" | **current format, steps=['Load']** |
 | `py23_check.py` on the builder scripts | 0 errors | **3 files, 0 errors, 0 warnings** |
 
-Only Abaqus 2023 was available, so the export was rebuilt in the **same** release. The genuine
-cross-release step (export in a newer release, rebuild in an older one) is still untested.
+The export was rebuilt in the **same** release (only Abaqus 2023 was available). The cross-release
+step (export in a newer release, rebuild in an older one) is the next test; until then, confirm
+with a datacheck in the target release.

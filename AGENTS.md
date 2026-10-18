@@ -4,10 +4,11 @@ This repository holds skills for working with the Abaqus finite element software
 folder under `skills/` with a `SKILL.md` (when to use it, the workflow, the rules), `scripts/`,
 `references/` and `examples/`. All paths below are relative to this file.
 
-**Status: verified on Abaqus 2023 only.** Every skill's worked example has been run end to end on
-Abaqus 2023 and matched its hand calculation (see `TEST_REPORT.md`). No other release has been
-tested, and only the worked examples are covered. Tell the user which release you are on, and that
-anything beyond those examples is unverified, whenever a result depends on these scripts.
+**Status: verified on Abaqus 2023 (v0.2.0).** Every skill's worked example has been run end to end on
+Abaqus 2023 and matched its hand calculation; per-skill results are in the README's Validation section
+and `TEST_REPORT.md`. Abaqus 2024+ (Python 3 kernel) and the cross-release path of
+`abaqus-version-compat` are not yet tested. On the user's own model, always run the skill's checks and
+say which Abaqus release the result comes from.
 
 ## How to use this index
 
@@ -40,8 +41,8 @@ anything beyond those examples is unverified, whenever a result depends on these
   Check with `python skills/abaqus-version-compat/scripts/py23_check.py <file>`.
 * Never overwrite the user's .cae or .odb; save to a new name.
 * Never present a result without its check: hand calculation, reaction balance, mesh check or energy balance
-  as described in the skill. The scripts in this repository are generic and not yet verified end-to-end in Abaqus;
-  say so when it matters.
+  as described in the skill. The scripts are verified on their worked examples (Abaqus 2023); a user's
+  model still needs its own checks.
 * Keep the user's project data out of shared files and out of this repository.
 
 Before committing changes to this repository run `scripts/compile_check.sh` and `scripts/scrub_check.sh`
