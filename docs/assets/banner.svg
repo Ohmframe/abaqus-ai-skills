@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="title desc">
+  <title id="title">Abaqus AI Skills by OhmFrame</title>
+  <desc id="desc">Banner: the project name and tagline next to a stylised structured hex mesh around a hole.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1626"/>
+      <stop offset="1" stop-color="#132a46"/>
+    </linearGradient>
+    <linearGradient id="hot" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2f7fd8"/>
+      <stop offset="0.55" stop-color="#3fc1a5"/>
+      <stop offset="1" stop-color="#f2b134"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="320" fill="url(#bg)"/>
+
+  <!-- text -->
+  <g font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <text x="72" y="128" fill="#ffffff" font-size="60" font-weight="700" letter-spacing="-1">Abaqus AI Skills</text>
+    <rect x="74" y="150" width="120" height="5" rx="2.5" fill="url(#hot)"/>
+    <text x="72" y="200" fill="#c9d6e8" font-size="24">Agent skills to build, run, debug and post-process</text>
+    <text x="72" y="232" fill="#c9d6e8" font-size="24">Abaqus models the way simulation engineers do.</text>
+    <text x="72" y="280" fill="#7f95b3" font-size="18" font-weight="600" letter-spacing="2">BY OHMFRAME  ·  OPEN SOURCE  ·  MIT</text>
+  </g>
+
+  <!-- stylised quarter plate with a hole: butterfly-partitioned structured mesh -->
+  <g transform="translate(900 40)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- outer block -->
+    <rect x="0" y="0" width="240" height="240" stroke="#3b5878" stroke-width="2"/>
+    <!-- element edges from the hole (centre 0,240, r = 60) to the outer edges -->
+    <g stroke="#3b5878" stroke-width="1.5">
+      <line x1="60" y1="240" x2="240" y2="240"/>
+      <line x1="59.5" y1="232.2" x2="240" y2="208.4"/>
+      <line x1="58" y1="224.5" x2="240" y2="175.7"/>
+      <line x1="55.4" y1="217" x2="240" y2="140.6"/>
+      <line x1="52" y1="210" x2="240" y2="101.4"/>
+      <line x1="47.6" y1="203.5" x2="240" y2="55.8"/>
+      <line x1="42.4" y1="197.6" x2="240" y2="0"/>
+      <line x1="36.5" y1="192.4" x2="184.2" y2="0"/>
+      <line x1="30" y1="188" x2="138.6" y2="0"/>
+      <line x1="23" y1="184.6" x2="99.4" y2="0"/>
+      <line x1="15.5" y1="182" x2="64.3" y2="0"/>
+      <line x1="7.8" y1="180.5" x2="31.6" y2="0"/>
+      <line x1="0" y1="180" x2="0" y2="0"/>
+    </g>
+    <!-- element rings, graded toward the hole -->
+    <g stroke="#3b5878" stroke-width="1.5">
+      <polyline points="81.6,240 81.1,229.3 79.8,218.6 77.6,207.9 74.5,197 70.7,185.8 66.1,173.9 54.2,169.3 43,165.5 32.1,162.4 21.4,160.2 10.7,158.9 0,158.4"/>
+      <polyline points="108.6,240 108.2,225.8 107.1,211.3 105.3,196.4 102.7,180.7 99.5,163.6 95.8,144.2 76.4,140.5 59.3,137.3 43.6,134.7 28.7,132.9 14.2,131.8 0,131.4"/>
+      <polyline points="141,240 140.7,221.5 139.9,202.5 138.5,182.6 136.6,161.1 134.2,137 131.3,108.7 103,105.8 78.9,103.4 57.4,101.5 37.5,100.1 18.5,99.3 0,99"/>
+      <polyline points="178.8,240 178.6,216.5 178.1,192.3 177.2,166.6 176.1,138.3 174.6,106 172.8,67.2 134,65.4 101.7,63.9 73.4,62.8 47.7,61.9 23.5,61.4 0,61.2"/>
+    </g>
+    <!-- diagonal partition (butterfly cut) highlighted -->
+    <line x1="42.4" y1="197.6" x2="240" y2="0" stroke="url(#hot)" stroke-width="3"/>
+    <!-- hole edge, highlighted as the stress hot spot -->
+    <path d="M 60 240 A 60 60 0 0 0 0 180" stroke="#f2b134" stroke-width="4"/>
+    <circle cx="0" cy="180" r="5" fill="#f2b134" stroke="none"/>
+  </g>
+</svg>
