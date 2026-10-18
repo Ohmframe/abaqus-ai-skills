@@ -1,0 +1,51 @@
+{
+  "_comment": "Textbook check case: steel cantilever, rectangular section, tip point load. Hand calc in examples/README.md.",
+  "model_name": "Cantilever",
+  "units": "mm-N-tonne-s-MPa",
+  "parts": [
+    {"name": "BEAM", "type": "box", "size": [1000.0, 100.0, 50.0]}
+  ],
+  "materials": [
+    {"name": "Steel", "density": 7.85e-9, "elastic": [210000.0, 0.3]}
+  ],
+  "sections": [
+    {"name": "Sec_Steel", "type": "solid", "material": "Steel"}
+  ],
+  "section_assignments": [
+    {"part": "BEAM", "section": "Sec_Steel"}
+  ],
+  "mesh": [
+    {"part": "BEAM", "seed": 10.0, "elem_shape": "HEX", "technique": "STRUCTURED",
+     "elem_codes": ["C3D8I"], "library": "STANDARD"}
+  ],
+  "instances": [
+    {"name": "BEAM-1", "part": "BEAM"}
+  ],
+  "reference_points": [
+    {"name": "RP_TIP", "point": [1000.0, 50.0, 25.0]}
+  ],
+  "sets": [
+    {"name": "FIXED_END", "instance": "BEAM-1", "kind": "faces", "bbox": [0, 0, 0, 0, 100, 50]},
+    {"name": "TIP_FACE", "instance": "BEAM-1", "kind": "faces", "bbox": [1000, 0, 0, 1000, 100, 50]},
+    {"name": "TOP_FIBRE_ROOT", "instance": "BEAM-1", "kind": "nodes", "bbox": [0, 100, 0, 0, 100, 50]}
+  ],
+  "couplings": [
+    {"name": "CPL_TIP", "control": "RP_TIP", "surface": "TIP_FACE", "type": "KINEMATIC"}
+  ],
+  "steps": [
+    {"name": "Load", "type": "static", "nlgeom": false, "initial_inc": 1.0, "max_inc": 1.0}
+  ],
+  "bcs": [
+    {"name": "BC_FIXED", "type": "encastre", "set": "FIXED_END", "step": "Initial"}
+  ],
+  "loads": [
+    {"name": "F_TIP", "type": "concentrated_force", "set": "RP_TIP", "step": "Load", "cf2": -1000.0}
+  ],
+  "outputs": {
+    "field": {"variables": ["S", "E", "U", "RF"]},
+    "history": [
+      {"name": "H_TIP", "step": "Load", "set": "RP_TIP", "variables": ["U2", "RF2", "CF2"]}
+    ]
+  },
+  "job": {"name": "Cantilever", "cpus": 1}
+}

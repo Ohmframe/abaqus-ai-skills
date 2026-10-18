@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+# Abaqus models, results and scratch files (never commit these)
+*.cae
+*.odb
+*.jnl
+*.rec
+*.rpy
+*.rpy.*
+abaqus.rpy*
+*.lck
+*.com
+*.dat
+*.msg
+*.sta
+*.prt
+*.sim
+*.res
+*.mdl
+*.stt
+*.abq
+*.pac
+*.sel
+*.023
+*.ipm
+*.log
+*.inp
+*.fil
+*.odb_f
+*.SMABulk
+*.exception
+*.cid
+*.mid
+*_export/
+results/
+*_energy/
+*_fld/
+# geometry / office
+*.step
+*.stp
+*.sat
+*.igs
+*.iges
+*.xlsx
+*.pdf
+.DS_Store
