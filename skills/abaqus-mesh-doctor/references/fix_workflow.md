@@ -24,7 +24,7 @@ The order we follow when a model "won't mesh" or the job dies on element errors.
 8. **Prove it**: re-run Analysis Checks, then `scratch_static_check.py` (dummy linear solve):
    reaction = weight and no zero-pivot warnings means the mesh is connected and solvable.
 9. **Document**: keep the mesh_report.json before and after with the model; it is the evidence
-   for the client or reviewer.
+   for the reviewer.
 
 ## Symptoms -> first thing to check
 

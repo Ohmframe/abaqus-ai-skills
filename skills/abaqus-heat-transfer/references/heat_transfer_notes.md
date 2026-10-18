@@ -9,9 +9,11 @@
   elements can give spurious oscillations: refine the mesh or use linear elements near the boundary.
 
 ## Boundary conditions
-* Film (convection): `FilmCondition(definition=EMBEDDED_COEFF, filmCoeff=h, sinkTemperature=T)`.
+* Film (convection): `m.FilmCondition(name=, createStepName=, surface=, definition=EMBEDDED_COEFF,
+  filmCoeff=h, sinkTemperature=T)`.
   Combined convection + radiation surface resistances (Rsi/Rse) map to h = 1/Rs.
-* Radiation to ambient: `RadiationToAmbient(emissivity=, ambientTemperature=)` needs
+* Radiation to ambient: `m.RadiationToAmbient(name=, createStepName=, surface=, radiationType=AMBIENT,
+  distributionType=UNIFORM, emissivity=, ambientTemperature=)` needs
   `model.setValues(absoluteZero=-273.15, stefanBoltzmann=5.670374e-8)` in SI.
 * Prescribed temperature: `TemperatureBC`. Heat flux: `SurfaceHeatFlux`. Internal generation: `BodyHeatFlux`.
 * Time-varying sink: TabularAmplitude with `sinkTemperature=1.0, sinkAmplitude=...`.

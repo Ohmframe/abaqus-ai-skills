@@ -4,7 +4,7 @@
 
 - [ ] **Units consistent.** mm-t-s-N-MPa: steel density 7.85e-9, g = 9810, energies in mJ.
       A density off by 1e9 shows up as a stable increment off by about 3e4.
-- [ ] **Stable increment estimate.** dt ≈ L_min / c, c = sqrt(E/rho) (steel ≈ 5.1e6 mm/s).
+- [ ] **Stable increment estimate.** dt ≈ L_min / c, c = sqrt(E/rho) (steel ≈ 5.2e6 mm/s).
       A 2 mm element -> about 4e-7 s. Number of increments = T / dt: above ~1e6, rethink (time
       scaling, mesh) and use double precision above ~300k.
 - [ ] **Smallest elements found** (Mesh > Verify > Stable Time Increment, or the .sta's first increment).

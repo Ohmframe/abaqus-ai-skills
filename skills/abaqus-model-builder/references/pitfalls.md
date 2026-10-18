@@ -1,6 +1,6 @@
 # Abaqus scripting pitfalls we have hit
 
-Each item below cost us real time on a past project. Every one is easy to avoid once you know it.
+Each item below cost us real time on past production work. Every one is easy to avoid once you know it.
 
 ## Python and the kernel
 
@@ -27,8 +27,10 @@ Each item below cost us real time on a past project. Every one is easy to avoid 
 ## API changes and keyword quirks
 
 11. **`main`/`secondary` (2022+) vs `master`/`slave` (2021 and older)** for `Tie`,
-    `SurfaceToSurfaceContactStd/Exp` and friends. Some 2023 docstrings still say master/slave, but
-    the kernel rejects those keywords. `tie()` in `build_from_spec.py` tries both.
+    `SurfaceToSurfaceContactStd/Exp` and friends. Whether a newer release still accepts the old
+    keywords varies by release and call, and some docstrings lag behind the kernel: never rely on
+    either spelling alone. `tie()` in `build_from_spec.py` tries `main=`/`secondary=` first and falls
+    back to `master=`/`slave=`.
 12. **The element-deletion keyword is `elemDeletion`**, not `elementDeletion`. Pass it only when you
     need it (Explicit with damage).
 13. **Assembly set names must not equal `<instance>_<part set>`**, or they collide with the names

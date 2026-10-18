@@ -4,11 +4,15 @@ This repository holds skills for working with the Abaqus finite element software
 folder under `skills/` with a `SKILL.md` (when to use it, the workflow, the rules), `scripts/`,
 `references/` and `examples/`. All paths below are relative to this file.
 
+**Status: every skill is untested.** No script in this repository has been run in Abaqus yet. Say so
+to the user whenever a result depends on these scripts.
+
 ## How to use this index
 
 1. Match the user's task to a skill in the table below.
-2. Open and follow that skill's `SKILL.md` before writing or running anything. Open its `references/`
-   files when the `SKILL.md` points to them.
+2. Open and follow that skill's `SKILL.md` before writing or running anything. Every `SKILL.md` has
+   the same sections: When to use, Files, Workflow, Checks before you report, Rules, References,
+   Background. Open its `references/` files when the `SKILL.md` points to them.
 3. Prefer the skill's scripts over writing new code; adapt the parameters or JSON spec, not the logic.
 4. Several skills can apply (for example, build a model with `abaqus-model-builder`, then extract results with
    `abaqus-odb-extract`).
@@ -38,6 +42,7 @@ folder under `skills/` with a `SKILL.md` (when to use it, the workflow, the rule
   say so when it matters.
 * Keep the user's project data out of shared files and out of this repository.
 
-Before committing changes to this repository run `scripts/compile_check.sh`.
+Before committing changes to this repository run `scripts/compile_check.sh` and `scripts/scrub_check.sh`
+(see `CONTRIBUTING.md`).
 
 Abaqus is a trademark of Dassault Systèmes. This project is not affiliated with or endorsed by Dassault Systèmes.

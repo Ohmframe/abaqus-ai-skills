@@ -16,8 +16,8 @@ abaqus python ../../abaqus-odb-extract/scripts/odb_extract.py drop_test.odb \
 |---|---|---|
 | initial kinetic energy | **12 500 mJ** (12.5 J) | 0.5 x 1e-3 t x (5000 mm/s)^2 |
 | time to contact | 1.0e-4 s | gap 0.5 mm / 5000 mm/s |
-| stable increment (plate) | ≈ 7e-7 s | 4 mm / 5.1e6 mm/s ... less with the shell thickness and Poisson, so expect 4-7e-7 |
-| increments for 3 ms | ≈ 5 000-8 000 | single precision is fine |
+| stable increment (plate) | ≈ 4-7e-7 s | 4 mm / 5.4e6 mm/s (plate wave speed sqrt(E / (ρ (1 - ν²)))) ≈ 7.4e-7 s; the element-by-element estimate Abaqus uses is lower, so expect 4-7e-7 s |
+| increments for 3 ms | ≈ 4 000-8 000 | 3e-3 s / dt; single precision is fine |
 | static stiffness bound | the plate cannot stop the sphere elastically: the 12.5 J ends mostly as ALLPD (plastic work) plus rebound ALLKE | energy balance |
 | impulse | ∫F dt = m (v_in + v_out) | from the RP V3 history |
 

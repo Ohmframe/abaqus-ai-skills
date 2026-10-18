@@ -20,8 +20,9 @@ Verify the details against the documentation of the releases you actually have.
 | up to 2023 | 2.7 | no f-strings, `print` needs `from __future__ import print_function`, str vs unicode |
 | 2024 and newer | 3.10 | `print` statements, `except X, e`, `iteritems`, `xrange`, `has_key` fail |
 
-Conversion helpers shipped with 2024+: `abaqus python -m abqPy2to3 <dir_or_file>` (2 -> 3 rewrite)
-and the plug-in/command `upgradeScript` for API renames. They do not make a script run on 2.7
+Conversion helpers shipped with 2024+ (check the exact usage in your release's documentation):
+`abaqus python -m abqPy2to3 <dir_or_file>` (2 -> 3 rewrite) and the `upgradeScript` utility for API
+renames. They do not make a script run on 2.7
 again; write the common subset (`py23_check.py` checks it).
 
 ## API renames we hit most
@@ -29,7 +30,7 @@ again; write the common subset (`py23_check.py` checks it).
 | Before | From release | Note |
 |---|---|---|
 | `master=`, `slave=` (Tie, contact pairs, couplings) | 2022: `main=`, `secondary=` | try the new keyword, fall back to the old (see build_from_spec.py `tie()`) |
-| `MASTER`, `SLAVE` constants (e.g. `positionToleranceMethod`, tie `adjust` sides) | 2022: `MAIN`, `SECONDARY` | same fallback |
+| `MASTER`, `SLAVE` constants and `master`/`slave` members (for example general-contact surface assignments) | 2022: `MAIN`, `SECONDARY` and `main`/`secondary` names | same fallback; check the exact name in your release's Scripting Reference |
 | `elemDeletion` / `maxDegradation` on `ElemType` | long-standing | check the keyword spelling in your release |
 | `mdb.openStep` without `from caeModules import *` | all | import caeModules in noGUI scripts |
 
@@ -39,7 +40,7 @@ again; write the common subset (`py23_check.py` checks it).
 * `abaqus python script.py` (odbAccess only) does not need a CAE token.
 * Solver tokens scale with cores; check before submitting with `cpus=`.
 
-## Checklist when a client says "I can't open your file"
+## Checklist when someone says "I can't open your file"
 
 1. Ask which release they run (`Help > About`, or the first lines of any .dat/.msg they made).
 2. If we have the build script: run it in that release (or send it with instructions).
