@@ -19,3 +19,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---------------------------------------------------------------------------
+Notes (not part of the licence terms above)
+
+Abaqus is a trademark of Dassault Systèmes. This project is not affiliated
+with or endorsed by Dassault Systèmes. This repository contains no Abaqus or
+SIMULIA software; a separately licensed Abaqus installation is required to
+run the scripts.

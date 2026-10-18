@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve the OhmFrame Abaqus skills. We welcome bug reports, test results from real
+Thanks for helping improve Abaqus AI Skills by OhmFrame. We welcome bug reports, test results from real
 Abaqus releases, fixes and new skills.
 
 ## Most useful right now
@@ -39,6 +39,9 @@ skills/<skill-name>/
 ```
 
 Keep `SKILL.md` short: the workflow and rules. Put long material in `references/`.
+Add the new skill to the table in `README.md` and to the index in `AGENTS.md`.
+Write skills tool-neutrally: plain Markdown and scripts, so they work in Claude Code and as
+instructions or context in other AI tools.
 
 ## Licence
 
